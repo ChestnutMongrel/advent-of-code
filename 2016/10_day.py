@@ -54,36 +54,31 @@ def parse_data(data: tuple) -> tuple:
     return bots, values
 
 
-def part_one(bots: dict, values: dict) -> tuple:
+def find_key_with_pair(data: dict) -> int | None:
+    for key, value in data.items():
+        if len(value) == 2:
+            return key
+
+    return None
+
+
+def part_one(actions: dict, values: dict) -> tuple:
     compare = {17, 61}
     the_bot = None
-    is_pair_left = True
 
-    while is_pair_left:
-        is_pair_left = False
-        new_values = dict()
+    while (bot := find_key_with_pair(values)) is not None:
+        pair = values[bot]
+        values.pop(bot)
 
-        for bot, pair in values.items():
-            if len(pair) != 2:
-                # print(bot, pair)
-                new_values.setdefault(bot, set()).add(pair.pop())
-                continue
+        if pair == compare:
+            the_bot = bot
 
-            is_pair_left = True
-
-            if bot not in bots:
-                print(f'{bot = }')
-                continue
-            if pair == compare:
-                the_bot = bot
-
-            low, high = sorted(pair)
-            for what, whom in bots[bot]:
-                if what == 0:
-                    new_values.setdefault(whom, set()).add(low)
-                if what == 1:
-                    new_values.setdefault(whom, set()).add(high)
-        values = new_values
+        low, high = sorted(pair)
+        for what, whom in actions[bot]:
+            if what == 0:
+                values.setdefault(whom, set()).add(low)
+            if what == 1:
+                values.setdefault(whom, set()).add(high)
 
     multiply_outputs = values[-100].pop() * values[-99].pop() * values[-98].pop()
     return the_bot, multiply_outputs

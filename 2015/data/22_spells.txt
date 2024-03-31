@@ -1,0 +1,6 @@
+Poison, Recharge, Shield, Magic Missile, Magic Missile, Magic Missile, Magic Missile, Magic Missile, Magic Missile, Magic Missile, Magic Missile, Magic Missile
+Magic Missile, Magic Missile, Shield, Recharge, Poison, Shield, Recharge, Magic Missile, Shield, Poison, Magic Missile, Magic Missile
+Magic Missile, Magic Missile, Shield, Recharge, Poison, Shield, Recharge, Poison, Shield, Magic Missile, Magic Missile
+Magic Missile, Shield, Recharge, Poison, Shield, Recharge, Poison, Magic Missile, Magic Missile, Magic Missile
+Poison, Magic Missile, Recharge, Poison, Shield, Magic Missile, Drain, Drain, Magic Missile
+

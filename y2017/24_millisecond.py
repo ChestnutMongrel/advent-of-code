@@ -23,39 +23,43 @@ def parse_data(data: tuple[str]) -> dict:
         start, end = map(int, line.split('/'))
         result[start].add(end)
         result[end].add(start)
-    return result
+    return dict(result)
 
 
 def part_one(data: dict[int: list]) -> int:
-    loops = set()
-    for point in data:
-        if point in data[point]:
-            loops.add(point)
-            data[point].remove(point)
+    # loops = set()
+    # for point in data:
+    #     if point in data[point]:
+    #         loops.add(point)
+    #         data[point].remove(point)
     # print(f'{loops = }')
 
+    # Will it be faster with not a full bridge, but with a start, an end, and every part?
+
     completed_bridges = list()
-    bridges = [(0,)]
+    start = 0
+    bridges = [((start, item),) for item in data[start]]
+
     while True:
         new_bridges = list()
+
         for current in bridges:
-            last = current[-1]
+            last = current[-1][-1]
             for point in data[last]:
-                if point not in current:
-                    new_bridges.append(current + (point,))
-                elif point != current[-2]:
-                    completed_bridges.append(current + (point,))
+                if (last, point) not in current and \
+                        (point, last) not in current:
+                    new_bridges.append(current + ((last, point),))
             if current not in completed_bridges:
                 completed_bridges.append(current)
+                # print(current)
         if not new_bridges:
             break
+        print(len(new_bridges))
         bridges = new_bridges
 
     max_weight = 0
     for path in completed_bridges:
-        print(f'{path = }')
-        weight = sum(path) * 2 - path[0] - path[-1] + sum(loops.intersection(path)) * 2
-        print(f'{weight = }')
+        weight = sum(x + y for x, y in path)
         if weight > max_weight:
             max_weight = weight
 
@@ -65,7 +69,7 @@ def part_one(data: dict[int: list]) -> int:
 def main() -> None:
     data = parse_data(get_data(year=YEAR, day=DAY))
     print('Part one:', part_one(data))
-    # 1235 is loo low
+    # 1235 is too low
     # print('Part two:', )
 
 
